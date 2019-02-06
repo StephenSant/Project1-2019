@@ -38,7 +38,7 @@ RenderSettings:
   m_ReflectionIntensity: 1
   m_CustomReflection: {fileID: 0}
   m_Sun: {fileID: 0}
-  m_IndirectSpecularColor: {r: 0.44657826, g: 0.49641263, b: 0.57481676, a: 1}
+  m_IndirectSpecularColor: {r: 0.44657898, g: 0.4964133, b: 0.5748178, a: 1}
   m_UseRadianceAmbientProbe: 0
 --- !u!157 &3
 LightmapSettings:
@@ -189,6 +189,7 @@ GameObject:
   - component: {fileID: 189618943}
   - component: {fileID: 189618944}
   - component: {fileID: 189618945}
+  - component: {fileID: 189618946}
   m_Layer: 0
   m_Name: Player
   m_TagString: Player
@@ -246,6 +247,21 @@ MonoBehaviour:
   canCurl: 0
   ballTime: 0.5
   cooldownSlider: {fileID: 542227579}
+--- !u!114 &189618946
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInternal: {fileID: 0}
+  m_GameObject: {fileID: 189618942}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: edb3e79ce24bbf34d9e20ccd27fd1b67, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  key: {fileID: 1161598649}
+  uncurlController: {fileID: 831453855}
+  curlController: {fileID: 1885209992}
+  playerController: {fileID: 189618945}
 --- !u!1 &199136519
 GameObject:
   m_ObjectHideFlags: 0
@@ -1148,6 +1164,81 @@ Transform:
   m_Children: []
   m_Father: {fileID: 1879928431}
   m_RootOrder: 0
+  m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
+--- !u!1 &1161598648
+GameObject:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInternal: {fileID: 0}
+  serializedVersion: 6
+  m_Component:
+  - component: {fileID: 1161598650}
+  - component: {fileID: 1161598649}
+  m_Layer: 0
+  m_Name: GameManager
+  m_TagString: Untagged
+  m_Icon: {fileID: 0}
+  m_NavMeshLayer: 0
+  m_StaticEditorFlags: 0
+  m_IsActive: 1
+--- !u!114 &1161598649
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInternal: {fileID: 0}
+  m_GameObject: {fileID: 1161598648}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: f6c46f7c330ba5d44aca990dfdcbc773, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  showOptions: 0
+  showKeybinds: 0
+  res:
+  - {x: 0, y: 0}
+  - {x: 0, y: 0}
+  - {x: 0, y: 0}
+  - {x: 0, y: 0}
+  - {x: 0, y: 0}
+  - {x: 0, y: 0}
+  - {x: 0, y: 0}
+  resIndex: 0
+  isFullscreen: 0
+  holdingKey: 0
+  forward: 119
+  backward: 115
+  left: 97
+  right: 100
+  jump: 32
+  curl: 323
+  mainAudio: {fileID: 0}
+  dirLight: {fileID: 0}
+  resDropDown: {fileID: 0}
+  volSlider: {fileID: 0}
+  brightSlider: {fileID: 0}
+  ambLightSlider: {fileID: 0}
+  mainMenu: {fileID: 0}
+  optionsMenu: {fileID: 0}
+  optionsGeneral: {fileID: 0}
+  optionsKeybinds: {fileID: 0}
+  forwardText: {fileID: 0}
+  backwardText: {fileID: 0}
+  leftText: {fileID: 0}
+  rightText: {fileID: 0}
+  jumpText: {fileID: 0}
+  curlText: {fileID: 0}
+--- !u!4 &1161598650
+Transform:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInternal: {fileID: 0}
+  m_GameObject: {fileID: 1161598648}
+  m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
+  m_LocalPosition: {x: 0, y: 0, z: 0}
+  m_LocalScale: {x: 1, y: 1, z: 1}
+  m_Children: []
+  m_Father: {fileID: 0}
+  m_RootOrder: 5
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
 --- !u!1 &1310127320
 GameObject:

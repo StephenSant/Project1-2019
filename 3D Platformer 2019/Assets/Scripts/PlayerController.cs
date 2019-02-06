@@ -30,11 +30,52 @@ public class PlayerController : MonoBehaviour
         cooldownSlider.maxValue = cooldown;
     }
 
-    // Update is called once per frame
-    void Update()
+    /// // Update is called once per frame
+    /// void Update()
+    /// {
+    ///     Debug.Log(ballTimer);
+    ///     if (Input.GetMouseButton(0) && ballTimer>=0 && cooldownTimer == 0)
+    ///     {
+    ///         isCurled = true;
+    ///         ballTimer -= Time.deltaTime;
+    ///     }
+    ///     else
+    ///     {
+    ///         isCurled = false;
+    ///         ballTimer = ballTime;
+    ///     }
+    ///     if ((Input.GetMouseButtonUp(0) || ballTimer <= 0) && cooldownTimer == 0)
+    ///     {
+    ///         cooldownTimer = cooldown;
+    ///     }
+    ///     cooldownTimer -= Time.deltaTime;
+    ///     if (cooldownTimer < 0) cooldownTimer = 0;
+    ///     switch (isCurled)
+    ///     {
+    ///         case false:
+    ///             uncurled.SetActive(true);
+    ///             curled.SetActive(false);
+    ///             break;
+    ///         case true:
+    ///             uncurled.SetActive(false);
+    ///             curled.SetActive(true);
+    ///             break;
+    /// 
+    ///     }
+    ///     if (transform.position.y <= -5)
+    ///     {
+    ///         transform.position = Vector3.zero;
+    ///         rigidbody.velocity = Vector3.zero;
+    ///     }
+    /// 
+    ///     cooldownSlider.value = cooldownTimer;
+    /// 
+    /// }
+
+    public void Curl()
     {
         Debug.Log(ballTimer);
-        if (Input.GetMouseButton(0) && ballTimer>=0 && cooldownTimer == 0)
+        if (ballTimer >= 0 && cooldownTimer == 0)
         {
             isCurled = true;
             ballTimer -= Time.deltaTime;
@@ -44,7 +85,7 @@ public class PlayerController : MonoBehaviour
             isCurled = false;
             ballTimer = ballTime;
         }
-        if ((Input.GetMouseButtonUp(0) || ballTimer <= 0) && cooldownTimer == 0)
+        if ((ballTimer <= 0) && cooldownTimer == 0)
         {
             cooldownTimer = cooldown;
         }
@@ -69,6 +110,5 @@ public class PlayerController : MonoBehaviour
         }
 
         cooldownSlider.value = cooldownTimer;
-
     }
 }

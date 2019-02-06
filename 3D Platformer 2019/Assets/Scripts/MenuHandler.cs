@@ -14,14 +14,13 @@ public class MenuHandler : MonoBehaviour
 
     // New toggle made for the 'tab'-based options menu design.
     public bool showKeybinds;
-
-    /// OPTIONAL - Fullscreen/Resolution options.
-    /// // Make an array of all compatible screen resolutions for a 16:9 aspect ratio.
-    /// // Current value of chosen resolution setting (pulled from resDropDown).
-    /// // "Is the game displayed in fullscreen?" (required when setting resolution (Screen.SetResolution)).
-    /// public Vector2[] res = new Vector2[7];
-    /// public int resIndex;
-    /// public bool isFullscreen;
+    
+    // Make an array of all compatible screen resolutions for a 16:9 aspect ratio.
+    // Current value of chosen resolution setting (pulled from resDropDown).
+    // "Is the game displayed in fullscreen?" (required when setting resolution (Screen.SetResolution)).
+    public Vector2[] res = new Vector2[7];
+    public int resIndex;
+    public bool isFullscreen;
 
     // Individual field for every control input KeyCode (required to save/load keybindings).
     [Header("Keys")]
@@ -31,11 +30,11 @@ public class MenuHandler : MonoBehaviour
     [Header("References")]
     // Reference to your main AudioSource.
     // Reference your scene's directional Light.
-    ///Reference resolution Dropdown menu (this is where resIndex gets its value from).
+    // Reference resolution Dropdown menu (this is where resIndex gets its value from).
     // Reference sliders (options menu).
     public AudioSource mainAudio;
     public Light dirLight;
-    ///public Dropdown resDropDown;
+    public Dropdown resDropDown;
     public Slider volSlider, brightSlider, ambLightSlider;
 
     // Grab the Main Menu and Options Menu from the scene.
@@ -47,7 +46,7 @@ public class MenuHandler : MonoBehaviour
     [Header("KeyBind References")]
     // Make a Text placeholder for every control input (control input stuff).
     public Text forwardText;
-    public Text backwardText, leftText, rightText, jumpText, curlText, sprintText, interactText, inventoryText, skillsText;
+    public Text backwardText, leftText, rightText, jumpText, curlText;
     #endregion
     
     #region Functions 'n' Methods
@@ -66,7 +65,7 @@ public class MenuHandler : MonoBehaviour
         left = (KeyCode)System.Enum.Parse(typeof(KeyCode), PlayerPrefs.GetString("Left", "A"));
         right = (KeyCode)System.Enum.Parse(typeof(KeyCode), PlayerPrefs.GetString("Right", "D"));
         jump = (KeyCode)System.Enum.Parse(typeof(KeyCode), PlayerPrefs.GetString("Jump", "Space"));
-        curl = (KeyCode)System.Enum.Parse(typeof(KeyCode), PlayerPrefs.GetString("Curl", "Mouse1"));
+        curl = (KeyCode)System.Enum.Parse(typeof(KeyCode), PlayerPrefs.GetString("Curl", "Mouse0"));
 
         // Make the currently assigned KeyCode display on the keybind buttons (otherwise it'll be blank on start).
         forwardText.text = forward.ToString();
@@ -158,14 +157,14 @@ public class MenuHandler : MonoBehaviour
             // Set each slider position to their respective control element's value (prevents spooky spikes upon adjustment).
             volSlider = GameObject.Find("Slider (Volume)").GetComponent<Slider>();
             volSlider.value = mainAudio.volume;
-
+            
             brightSlider = GameObject.Find("Slider (Brightness)").GetComponent<Slider>();
             brightSlider.value = dirLight.intensity;
-
+            
             ambLightSlider = GameObject.Find("Slider (Ambient Light)").GetComponent<Slider>();
             ambLightSlider.value = RenderSettings.ambientIntensity;
-
-            // resDropDown = GameObject.Find("Dropdown (Resolution)").GetComponent<Dropdown>();
+            
+            resDropDown = GameObject.Find("Dropdown (Resolution)").GetComponent<Dropdown>();
 
             return false;
         }
@@ -224,14 +223,14 @@ public class MenuHandler : MonoBehaviour
         RenderSettings.ambientIntensity = ambLightSlider.value;
     }
     #endregion
-    ///#region +void Resolution() - Resolution Dropdown
-    /// // Method to change the screen resolution via the resDropDown.
-    ///public void Resolution()
-    ///{
-    ///    resIndex = resDropDown.value;
-    ///    Screen.SetResolution((int)res[resIndex].x, (int)res[resIndex].y, isFullscreen);
-    ///}
-    ///#endregion
+    #region +void Resolution() - Resolution Dropdown
+     // Method to change the screen resolution via the resDropDown.
+    public void Resolution()
+    {
+        resIndex = resDropDown.value;
+        Screen.SetResolution((int)res[resIndex].x, (int)res[resIndex].y, isFullscreen);
+    }
+    #endregion
     #region +void Save() - Save Button
     // Method to save all KeyCodes to strings in the PlayerPrefs.
     public void Save()

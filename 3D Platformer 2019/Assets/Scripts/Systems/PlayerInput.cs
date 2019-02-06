@@ -9,8 +9,9 @@ public class PlayerInput : MonoBehaviour
     #region Variables
     // Format is: public [SCRIPT NAME HERE] var;
     public MenuHandler key;
-    //*//public UncurledMovement uncurlController;
-    //*//public CurledMovement curlController;
+    public UncurledMovement uncurlController;
+    public CurledMovement curlController;
+    public PlayerController playerController;
     #endregion
 
     // Where we get our control scripts.
@@ -22,8 +23,9 @@ public class PlayerInput : MonoBehaviour
         key = FindObjectOfType<MenuHandler>();
 
         // ... the relevant functions within the scripts.
-        //*//uncurlController = FindObjectOfType<UncurledMovement>();
-        //*//curlController = FindObjectOfType<CurledMovement>();
+        uncurlController = FindObjectOfType<UncurledMovement>();
+        curlController = FindObjectOfType<CurledMovement>();
+        playerController = FindObjectOfType<PlayerController>();
     }
     #endregion
 
@@ -38,16 +40,29 @@ public class PlayerInput : MonoBehaviour
         float inputH = Input.GetKey(key.right) ? 1f : Input.GetKey(key.left) ? -1f : 0;
         float inputV = Input.GetKey(key.forward) ? 1f : Input.GetKey(key.backward) ? -1f : 0;
 
-        // Execute 'CharacterMovement.Move()' from here.
-        //*//uncurlController.Move(inputH, inputV);
-        
-        // Same as above, but for 'UncurledMovement.Jump()'.
-        if (Input.GetKeyDown(key.jump))
+        // Plug our inputs into our Controller scripts from here.
+        if (playerController.isCurled == false)
         {
-            //*//uncurlController.Jump();
+            uncurlController.UncurlMove(inputH, inputV);
+        }
+        else
+        {
+            curlController.CurlMove(inputH, inputV);
         }
 
-        // controller.UpdateController();
+        // Same as above, but for 'UncurledMovement.Jump()'.
+        if (Input.GetKey(key.jump))
+        {
+            uncurlController.UncurlJump();
+        }
+
+        if (Input.GetKey(key.curl) && playerController.canCurl)
+        {
+            playerController.Curl();
+        }
+
+        uncurlController.UpdateUncurlMove();
+        curlController.UpdateCurlMove();
         #endregion
     }
     #endregion
