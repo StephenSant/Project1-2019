@@ -9,8 +9,8 @@ public class PlayerInput : MonoBehaviour
     #region Variables
     // Format is: public [SCRIPT NAME HERE] var;
     public MenuHandler key;
-    public UncurledMovement uncurlController;
-    public CurledMovement curlController;
+    //*//public UncurledMovement uncurlController;
+    //*//public CurledMovement curlController;
     #endregion
 
     // Where we get our control scripts.
@@ -22,8 +22,8 @@ public class PlayerInput : MonoBehaviour
         key = FindObjectOfType<MenuHandler>();
 
         // ... the relevant functions within the scripts.
-        uncurlController = FindObjectOfType<UncurledMovement>();
-        curlController = FindObjectOfType<CurledMovement>();
+        //*//uncurlController = FindObjectOfType<UncurledMovement>();
+        //*//curlController = FindObjectOfType<CurledMovement>();
     }
     #endregion
 
@@ -39,12 +39,12 @@ public class PlayerInput : MonoBehaviour
         float inputV = Input.GetKey(key.forward) ? 1f : Input.GetKey(key.backward) ? -1f : 0;
 
         // Execute 'CharacterMovement.Move()' from here.
-        uncurlController.Move(inputH, inputV);
-
+        //*//uncurlController.Move(inputH, inputV);
+        
         // Same as above, but for 'UncurledMovement.Jump()'.
         if (Input.GetKeyDown(key.jump))
         {
-            uncurlController.Jump();
+            //*//uncurlController.Jump();
         }
 
         // controller.UpdateController();
