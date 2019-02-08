@@ -12,6 +12,13 @@ public class PlayerInput : MonoBehaviour
     public UncurledMovement uncurlController;
     public CurledMovement curlController;
     public PlayerController playerController;
+
+    // Input Axis (Forward, Backward, Left, Right).
+    float inputH = 0;
+    float inputV = 0;
+
+    // Control dampening (how quickly it starts and stops).
+    public float dampen;
     #endregion
 
     // Where we get our control scripts.
@@ -36,9 +43,66 @@ public class PlayerInput : MonoBehaviour
     {
         /// ATTENTION! CHECK COMPATIBILITY WITH MOVEMENT SCRIPTS!
         #region Movement
-        // Ternary operator (courtesy of Manny); it's a new (fake) axis using the saved keys.
-        float inputH = Input.GetKey(key.right) ? 1f : Input.GetKey(key.left) ? -1f : 0;
-        float inputV = Input.GetKey(key.forward) ? 1f : Input.GetKey(key.backward) ? -1f : 0;
+        /// Garbage. (Couldn't use ternary operator with smoothness). 
+        /// Ternary operator (courtesy of Manny); it's a new (fake) axis using the saved keys.
+        /// float inputH = Input.GetKey(key.right) ? 1f : Input.GetKey(key.left) ? -1f : 0;
+        /// float inputV = Input.GetKey(key.forward) ? 1f : Input.GetKey(key.backward) ? -1f : 0;      
+        
+        #region inputH dampening
+        // If we press... uh, yeah. It turns on.
+        if (Input.GetKey(key.right))
+        {
+            inputH = 1;
+        }
+        if (Input.GetKey(key.left))
+        {
+            inputH = -1;
+        }
+        // Otherwise, if we're not pressing the keys...
+        else if (!Input.GetKey(key.right) && !Input.GetKey(key.left))
+        {
+            // Start slowing the player down smoothly to a stop.
+            if (inputH > 0.05f && inputH != 0)
+            {
+                inputH -= Time.deltaTime * dampen;
+            }
+            else if (inputH < -0.05f && inputH != 0)
+            {
+                inputH += Time.deltaTime * dampen;
+            }
+            else if (inputH <= 0.05f && inputH >= -0.05f)
+            {
+                inputH = 0;
+            }
+        }
+        #endregion
+        // See 'inputH dampening' for code comments.
+        #region inputV dampening
+        if (Input.GetKey(key.forward))
+        {
+            inputV = 1;
+        }
+        if (Input.GetKey(key.backward))
+        {
+            inputV = -1;
+        }
+        else if (!Input.GetKey(key.forward) && !Input.GetKey(key.backward))
+        {
+            if (inputV > 0.05f && inputV != 0)
+            {
+                inputV -= Time.deltaTime * dampen;
+            }
+            else if (inputV < -0.05f && inputV != 0)
+            {
+                inputV += Time.deltaTime * dampen;
+
+            }
+            else if (inputV <= 0.05f && inputV >= -0.05f)
+            {
+                inputV = 0;
+            }
+        } 
+        #endregion
 
         // Plug our inputs into our Controller scripts from here.
         if (playerController.isCurled == false)
@@ -56,7 +120,7 @@ public class PlayerInput : MonoBehaviour
             uncurlController.UncurlJump();
         }
 
-        if (Input.GetKey(key.curl) && playerController.canCurl)
+        if (Input.GetKey(key.curl) && playerController.canCurl == true)
         {
             playerController.Curl();
         }
