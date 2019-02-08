@@ -12,9 +12,11 @@ public class PlayerController : MonoBehaviour
 
     public bool isCurled;
 
+    [Tooltip("Time until your allowed ball form.")]
     public float cooldown;
     private float cooldownTimer;
     public bool canCurl;
+    [Tooltip("Time allowed in ball form.")]
     public float ballTime;
     private float ballTimer;
 
@@ -33,7 +35,7 @@ public class PlayerController : MonoBehaviour
     // Update is called once per frame
     void Update()
     {
-        Debug.Log(ballTimer);
+        #region Curling
         if (Input.GetMouseButton(0) && ballTimer>=0 && cooldownTimer == 0)
         {
             isCurled = true;
@@ -44,13 +46,19 @@ public class PlayerController : MonoBehaviour
             isCurled = false;
             ballTimer = ballTime;
         }
+        #endregion
+        #region Uncurling
         if ((Input.GetMouseButtonUp(0) || ballTimer <= 0) && cooldownTimer == 0)
         {
             cooldownTimer = cooldown;
         }
-        cooldownTimer -= Time.deltaTime;
-        if (cooldownTimer < 0) cooldownTimer = 0;
-        switch (isCurled)
+        #endregion
+
+        cooldownTimer -= Time.deltaTime; //Cooldown counts down
+
+        if (cooldownTimer < 0) cooldownTimer = 0; //If cooldown is done.
+
+        switch (isCurled)//Activates/deactivates GameObjects
         {
             case false:
                 uncurled.SetActive(true);
@@ -62,13 +70,16 @@ public class PlayerController : MonoBehaviour
                 break;
 
         }
+
+        #region Respawning
         if (transform.position.y <= -5)
         {
             transform.position = Vector3.zero;
             rigidbody.velocity = Vector3.zero;
         }
+        #endregion
 
-        cooldownSlider.value = cooldownTimer;
+        cooldownSlider.value = cooldownTimer; //Set slider to cooldown
 
     }
 }
