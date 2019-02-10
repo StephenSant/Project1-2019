@@ -21,10 +21,11 @@ public class PlayerInput : MonoBehaviour
     public float dampen;
     #endregion
 
+    #region Functions 'n' Methods
     // Where we get our control scripts.
-    #region -void Start()
+    #region void Start()
     // Start is called just before any of the Update methods is called the first time
-    private void Start()
+    void Start()
     {
         // Get our MenuHandler's saved keybindings, and...
         key = FindObjectOfType<MenuHandler>();
@@ -47,7 +48,7 @@ public class PlayerInput : MonoBehaviour
         /// Ternary operator (courtesy of Manny); it's a new (fake) axis using the saved keys.
         /// float inputH = Input.GetKey(key.right) ? 1f : Input.GetKey(key.left) ? -1f : 0;
         /// float inputV = Input.GetKey(key.forward) ? 1f : Input.GetKey(key.backward) ? -1f : 0;      
-        
+
         // Left and Right axis.
         #region inputH dampening
         // If we press... uh, yeah. It turns on.
@@ -103,7 +104,7 @@ public class PlayerInput : MonoBehaviour
             {
                 inputV = 0;
             }
-        } 
+        }
         #endregion
 
         // Plug our inputs into our Controller scripts from here.
@@ -125,18 +126,23 @@ public class PlayerInput : MonoBehaviour
             uncurlController.UncurlJump();
         }
 
-        if (Input.GetKey(key.curl) && playerController.curlLock == false)
-        {
-            playerController.Curl();
-        }
-        else
-        {
-            playerController.isCurled = false;
-        }
+        /// if (Input.GetKey(key.curl) && playerController.curlLock == false)
+        /// {
+        ///     playerController.Curl();
+        /// }
+        //if (Input.GetKey(key.curl) && playerController.canCurl == true)
+        //{
+        //    playerController.Curl();
+        //}
+        //else
+        //{
+        //    playerController.isCurled = false;
+        //}
 
         uncurlController.UpdateUncurlMove();
         curlController.UpdateCurlMove();
         #endregion
     }
+    #endregion 
     #endregion
 }
