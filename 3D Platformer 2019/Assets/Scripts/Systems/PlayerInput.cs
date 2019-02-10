@@ -48,7 +48,6 @@ public class PlayerInput : MonoBehaviour
         /// float inputH = Input.GetKey(key.right) ? 1f : Input.GetKey(key.left) ? -1f : 0;
         /// float inputV = Input.GetKey(key.forward) ? 1f : Input.GetKey(key.backward) ? -1f : 0;      
         
-        // Left and Right axis.
         #region inputH dampening
         // If we press... uh, yeah. It turns on.
         if (Input.GetKey(key.right))
@@ -65,11 +64,11 @@ public class PlayerInput : MonoBehaviour
             // Start slowing the player down smoothly to a stop.
             if (inputH > 0.05f && inputH != 0)
             {
-                inputH -= Time.deltaTime / dampen;
+                inputH -= Time.deltaTime * dampen;
             }
             else if (inputH < -0.05f && inputH != 0)
             {
-                inputH += Time.deltaTime / dampen;
+                inputH += Time.deltaTime * dampen;
             }
             else if (inputH <= 0.05f && inputH >= -0.05f)
             {
@@ -77,9 +76,8 @@ public class PlayerInput : MonoBehaviour
             }
         }
         #endregion
-        // Forward and Backward axis.
-        #region inputV dampening
         // See 'inputH dampening' for code comments.
+        #region inputV dampening
         if (Input.GetKey(key.forward))
         {
             inputV = 1;
@@ -92,11 +90,11 @@ public class PlayerInput : MonoBehaviour
         {
             if (inputV > 0.05f && inputV != 0)
             {
-                inputV -= Time.deltaTime / dampen;
+                inputV -= Time.deltaTime * dampen;
             }
             else if (inputV < -0.05f && inputV != 0)
             {
-                inputV += Time.deltaTime / dampen;
+                inputV += Time.deltaTime * dampen;
 
             }
             else if (inputV <= 0.05f && inputV >= -0.05f)
@@ -107,16 +105,13 @@ public class PlayerInput : MonoBehaviour
         #endregion
 
         // Plug our inputs into our Controller scripts from here.
-        // NOTE: If we're curled or uncurled, the opposite needs to be neutral, or it stays on.
         if (playerController.isCurled == false)
         {
             uncurlController.UncurlMove(inputH, inputV);
-            curlController.CurlMove(0f, 0f);
         }
         else
         {
             curlController.CurlMove(inputH, inputV);
-            uncurlController.UncurlMove(0f, 0f);
         }
 
         // Same as above, but for 'UncurledMovement.Jump()'.
@@ -125,13 +120,9 @@ public class PlayerInput : MonoBehaviour
             uncurlController.UncurlJump();
         }
 
-        if (Input.GetKey(key.curl) && playerController.curlLock == false)
+        if (Input.GetKey(key.curl) && playerController.canCurl == true)
         {
             playerController.Curl();
-        }
-        else
-        {
-            playerController.isCurled = false;
         }
 
         uncurlController.UpdateUncurlMove();
