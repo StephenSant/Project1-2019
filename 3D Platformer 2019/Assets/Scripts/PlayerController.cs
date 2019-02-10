@@ -10,19 +10,17 @@ public class PlayerController : MonoBehaviour
     public GameObject curled;
     public GameObject uncurled;
 
-<<<<<<< HEAD
-=======
-    public float maxCurlTime;
-    public float curCurlTime;
+    private float maxCurlTime = 1f, curCurlTime = 1f;
+    public float curlDrain;
     public float curlRecharge;
->>>>>>> parent of 13d779d... 007 - PlayerInputs + PlayerController.cs
     public bool isCurled;
+    public bool curlLock;
 
-    public float cooldown;
-    private float cooldownTimer;
-    public bool canCurl;
-    public float ballTime;
-    private float ballTimer;
+    // public float cooldown;
+    // private float cooldownTimer;
+    // public bool canCurl;
+    // public float ballTime;
+    // private float ballTimer;
 
     public Slider cooldownSlider;
 
@@ -32,53 +30,12 @@ public class PlayerController : MonoBehaviour
         curled = GameObject.Find("Curled");
         uncurled = GameObject.Find("Uncurled");
         isCurled = false;
+        curlLock = false;
+        curCurlTime = maxCurlTime;
         rigidbody = GetComponent<Rigidbody>();
-        cooldownSlider.maxValue = cooldown;
+        cooldownSlider.maxValue = curCurlTime;
     }
 
-<<<<<<< HEAD
-    /// // Update is called once per frame
-    /// void Update()
-    /// {
-    ///     Debug.Log(ballTimer);
-    ///     if (Input.GetMouseButton(0) && ballTimer>=0 && cooldownTimer == 0)
-    ///     {
-    ///         isCurled = true;
-    ///         ballTimer -= Time.deltaTime;
-    ///     }
-    ///     else
-    ///     {
-    ///         isCurled = false;
-    ///         ballTimer = ballTime;
-    ///     }
-    ///     if ((Input.GetMouseButtonUp(0) || ballTimer <= 0) && cooldownTimer == 0)
-    ///     {
-    ///         cooldownTimer = cooldown;
-    ///     }
-    ///     cooldownTimer -= Time.deltaTime;
-    ///     if (cooldownTimer < 0) cooldownTimer = 0;
-    ///     switch (isCurled)
-    ///     {
-    ///         case false:
-    ///             uncurled.SetActive(true);
-    ///             curled.SetActive(false);
-    ///             break;
-    ///         case true:
-    ///             uncurled.SetActive(false);
-    ///             curled.SetActive(true);
-    ///             break;
-    /// 
-    ///     }
-    ///     if (transform.position.y <= -5)
-    ///     {
-    ///         transform.position = Vector3.zero;
-    ///         rigidbody.velocity = Vector3.zero;
-    ///     }
-    /// 
-    ///     cooldownSlider.value = cooldownTimer;
-    /// 
-    /// }
-=======
     // Update is called every frame, if the MonoBehaviour is enabled
     void Update()
     {
@@ -100,11 +57,11 @@ public class PlayerController : MonoBehaviour
             isCurled = false;
         }
 
-        // If curCurlTime is less than maxCurlTime AND we stop curling, turn on curlLock.
+        // If curCurlTime is less than maxCurlTime AND we stop curling, turn on curlLock and recharge curl.
         if (curCurlTime < maxCurlTime && !isCurled)
         {
             curlLock = true;
-            curCurlTime += Time.deltaTime * curlRecharge;
+            curCurlTime += Time.deltaTime / curlRecharge;
         }
 
         // If curlLock is on, then we can't carl.
@@ -149,14 +106,13 @@ public class PlayerController : MonoBehaviour
         if (curlLock == false)
         {
             isCurled = true;
-            curCurlTime -= Time.deltaTime;
+            curCurlTime -= Time.deltaTime / curlDrain;
         }
-        // Uncurl and set ballTimer to ballTime (0.5f) on-release.
+        
         else
         {
             isCurled = false;
         }
 
     }
->>>>>>> parent of 13d779d... 007 - PlayerInputs + PlayerController.cs
 }
