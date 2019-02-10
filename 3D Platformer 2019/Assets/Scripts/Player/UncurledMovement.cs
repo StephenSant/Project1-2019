@@ -15,7 +15,7 @@ public class UncurledMovement : MonoBehaviour
     private Vector3 moveDirection = Vector3.zero;
 
     // Components.
-    private Rigidbody rigidbody;
+    private Rigidbody rigid;
     private Transform parent;
     #endregion
 
@@ -27,7 +27,7 @@ public class UncurledMovement : MonoBehaviour
     void Start()
     {
         //Remember to get everything from the parent
-        rigidbody = GameObject.FindWithTag("Player").GetComponentInParent<Rigidbody>();
+        rigid = GameObject.FindWithTag("Player").GetComponentInParent<Rigidbody>();
         parent = GameObject.FindWithTag("Player").transform;
     }
     #endregion
@@ -51,7 +51,7 @@ public class UncurledMovement : MonoBehaviour
         /// Removed (old Jump).
         /// if (grounded && Input.GetButton("Jump"))
         /// {
-        ///     rigidbody.velocity = ((Vector3.up * 100) * Time.deltaTime * jumpHeight);
+        ///     rigid.velocity = ((Vector3.up * 100) * Time.deltaTime * jumpHeight);
         /// }
     } 
     #endregion
@@ -76,7 +76,7 @@ public class UncurledMovement : MonoBehaviour
     {
         if (grounded)
         {
-            rigidbody.velocity = ((Vector3.up * 100) * Time.deltaTime * jumpHeight);
+            rigid.velocity = ((Vector3.up * 100) * Time.deltaTime * jumpHeight);
         }
     }
     #endregion

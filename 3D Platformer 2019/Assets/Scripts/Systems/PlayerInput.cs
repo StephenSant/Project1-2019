@@ -126,18 +126,14 @@ public class PlayerInput : MonoBehaviour
             uncurlController.UncurlJump();
         }
 
-        /// if (Input.GetKey(key.curl) && playerController.curlLock == false)
-        /// {
-        ///     playerController.Curl();
-        /// }
-        //if (Input.GetKey(key.curl) && playerController.canCurl == true)
-        //{
-        //    playerController.Curl();
-        //}
-        //else
-        //{
-        //    playerController.isCurled = false;
-        //}
+        if (Input.GetKey(key.curl) && playerController.curlLock == false)
+        {
+            playerController.Curl();
+        }
+        else
+        {
+            playerController.isCurled = false;
+        }
 
         uncurlController.UpdateUncurlMove();
         curlController.UpdateCurlMove();
