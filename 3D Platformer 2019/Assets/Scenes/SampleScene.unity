@@ -326,9 +326,8 @@ MonoBehaviour:
   rigidbody: {fileID: 0}
   curled: {fileID: 1885209990}
   uncurled: {fileID: 831453854}
-  maxCurlTime: 1
-  curCurlTime: 1
-  curlRecharge: 0
+  curlDrain: 0.5
+  curlRecharge: 2.5
   isCurled: 0
   curlLock: 0
   cooldownSlider: {fileID: 542227579}
@@ -347,7 +346,7 @@ MonoBehaviour:
   uncurlController: {fileID: 831453855}
   curlController: {fileID: 1885209992}
   playerController: {fileID: 189618945}
-  dampen: 0
+  dampen: 0.25
 --- !u!1 &199136519
 GameObject:
   m_ObjectHideFlags: 0
