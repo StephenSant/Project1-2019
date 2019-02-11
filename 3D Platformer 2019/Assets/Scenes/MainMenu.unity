@@ -711,7 +711,7 @@ MonoBehaviour:
   left: 97
   right: 100
   jump: 32
-  curl: 324
+  curl: 323
   mainAudio: {fileID: 0}
   dirLight: {fileID: 0}
   resDropDown: {fileID: 0}

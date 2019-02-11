@@ -26,6 +26,13 @@ public class MenuHandler : MonoBehaviour
     [Header("Keys")]
     public KeyCode holdingKey;
     public KeyCode forward, backward, left, right, jump, curl;
+    // private holdKey is if we change our keys, but we don't save.
+    private KeyCode holdKeyForward, holdKeyBackward, holdKeyLeft, holdKeyRight, holdKeyJump, holdKeyCurl;
+
+    // Hold Values needed to fall back on if you change video settings, but you click 'cancel'.
+    [Header("Hold Values")]
+    public float holdVol;
+    public float holdBright, holdAmbLight;
 
     [Header("References")]
     // Reference to your main AudioSource.
@@ -132,16 +139,38 @@ public class MenuHandler : MonoBehaviour
     // bool to return conditions on when to display or hide option's menu (and do a few other things).
     bool OptionToggle()
     {
-        // if 'showOptions' is true... close the options menu and return to the main menu.
-        // Oh, and set the options menu back to the General tab (to prevent a null reference in the else state).
+        // If we click 'cancel' (if 'showOptions' is true)... close the options menu and return to the main menu.
         if (showOptions)
         {
             showOptions = false;
             showKeybinds = false;
+            // Oh, and set the options menu back to the General tab (to prevent a null reference in the else state).
             optionsGeneral.SetActive(true);
             optionsKeybinds.SetActive(false);
             mainMenu.SetActive(true);
             optionsMenu.SetActive(false);
+
+            // Reset all of our options back to our previous settings.
+            #region Cancel Saving - Reset all settings
+            mainAudio.volume = holdVol;
+            dirLight.intensity = holdBright;
+            ambLightSlider.value = holdAmbLight;
+
+            forward = holdKeyForward;
+            backward = holdKeyBackward;
+            left = holdKeyLeft;
+            right = holdKeyRight;
+            jump = holdKeyJump;
+            curl = holdKeyCurl;
+
+            forwardText.text = holdKeyForward.ToString();
+            backwardText.text = holdKeyBackward.ToString();
+            leftText.text = holdKeyLeft.ToString();
+            rightText.text = holdKeyRight.ToString();
+            jumpText.text = holdKeyJump.ToString();
+            curlText.text = holdKeyCurl.ToString(); 
+            #endregion
+
             return true;
         }
         // otherwise (false)... open the options menu and hide the main menu (and do those other things we talked about).
@@ -151,19 +180,23 @@ public class MenuHandler : MonoBehaviour
             mainMenu.SetActive(false);
             optionsMenu.SetActive(true);
 
-            // Now for those other things:
-            // Upon opening the options menu...
-            // Get each relevant canvas GUI component from their respective GameObject.
-            // Set each slider position to their respective control element's value (prevents spooky spikes upon adjustment).
+            /// Now for those other things:
+            /// Upon opening the options menu...
+            /// Get each relevant canvas GUI component from their respective GameObject.
+            /// Set each slider position to their respective control element's value (prevents spooky spikes upon adjustment).
+            /// Get a placeholder value for sliders.
             volSlider = GameObject.Find("Slider (Volume)").GetComponent<Slider>();
             volSlider.value = mainAudio.volume;
+            holdVol = volSlider.value;
             
             brightSlider = GameObject.Find("Slider (Brightness)").GetComponent<Slider>();
             brightSlider.value = dirLight.intensity;
+            holdBright = brightSlider.value;
             
             ambLightSlider = GameObject.Find("Slider (Ambient Light)").GetComponent<Slider>();
             ambLightSlider.value = RenderSettings.ambientIntensity;
-            
+            holdAmbLight = ambLightSlider.value;
+
             resDropDown = GameObject.Find("Dropdown (Resolution)").GetComponent<Dropdown>();
 
             return false;
@@ -181,6 +214,7 @@ public class MenuHandler : MonoBehaviour
     // A bool that's almost identical to 'OptionToggle()' (toggles between the 'General' tab and the 'Keybinds' tab.
     bool KeybindToggle()
     {
+        // Close Keybinds tab, open General tab.
         if (showKeybinds)
         {
             showKeybinds = false;
@@ -188,11 +222,19 @@ public class MenuHandler : MonoBehaviour
             optionsKeybinds.SetActive(false);
             return true;
         }
+        // Close General tab, open Keybinds tab.
         else
         {
             showKeybinds = true;
             optionsGeneral.SetActive(false);
             optionsKeybinds.SetActive(true);
+            // Store current keybinds on opening Keybinds (if we do or don't save).
+            holdKeyForward = forward;
+            holdKeyBackward = backward;
+            holdKeyLeft = left;
+            holdKeyRight = right;
+            holdKeyJump = jump;
+            holdKeyCurl = curl;
             return false;
         }
     } 
@@ -242,10 +284,23 @@ public class MenuHandler : MonoBehaviour
         PlayerPrefs.SetString("Jump", jump.ToString());
         PlayerPrefs.SetString("Curl", curl.ToString());
 
-        //(?) Saving other changed settings
+        // Saving other changed settings
         PlayerPrefs.SetFloat("Volume", mainAudio.volume);
         PlayerPrefs.SetFloat("Light", dirLight.intensity);
         PlayerPrefs.SetFloat("Ambient", RenderSettings.ambientIntensity);
+
+        // Set our hold values to our new values.
+        holdVol = volSlider.value;
+        holdBright = brightSlider.value;
+        holdAmbLight = ambLightSlider.value;
+        holdKeyForward = forward;
+        holdKeyBackward = backward;
+        holdKeyLeft = left;
+        holdKeyRight = right;
+        holdKeyJump = jump;
+        holdKeyCurl = curl;
+
+        OptionToggle();
     }
     #endregion
     #endregion
