@@ -24,7 +24,7 @@ public class PlayerController : MonoBehaviour
     /// [Tooltip("Time allowed in ball form.")]
     /// public float ballTime;
     /// private float ballTimer;
-    private float maxCurlTime = 1f, curCurlTime = 1f;
+    public float maxCurlTime = 1f, curCurlTime = 1f;
     public float curlDrain;
     public float curlRecharge;
     public bool isCurled;

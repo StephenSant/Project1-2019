@@ -11,7 +11,7 @@ public class PlayerInput : MonoBehaviour
     public MenuHandler key;
     public UncurledMovement uncurlController;
     public CurledMovement curlController;
-    public PlayerController playerController;
+    public PlayerController playerControl;
 
     // Input Axis (Forward, Backward, Left, Right).
     float inputH = 0;
@@ -33,7 +33,7 @@ public class PlayerInput : MonoBehaviour
         // ... the relevant functions within the scripts.
         uncurlController = FindObjectOfType<UncurledMovement>();
         curlController = FindObjectOfType<CurledMovement>();
-        playerController = FindObjectOfType<PlayerController>();
+        playerControl = FindObjectOfType<PlayerController>();
     }
     #endregion
 
@@ -109,7 +109,7 @@ public class PlayerInput : MonoBehaviour
 
         // Plug our inputs into our Controller scripts from here.
         // NOTE: If we're curled or uncurled, the opposite needs to be neutral, or it stays on.
-        if (playerController.isCurled == false)
+        if (playerControl.isCurled == false)
         {
             uncurlController.UncurlMove(inputH, inputV);
             curlController.CurlMove(0f, 0f);
@@ -128,13 +128,14 @@ public class PlayerInput : MonoBehaviour
 
         if (!Pause.paused)
         {
-            if (Input.GetKey(key.curl) && playerController.curlLock == false)
+            if (Input.GetKey(key.curl) && playerControl.curlLock == false)
             {
-                playerController.Curl();
+                playerControl.Curl();
             }
-            else
+            else if (Input.GetKeyUp(key.curl) && playerControl.curlLock == false)
             {
-                playerController.isCurled = false;
+                playerControl.isCurled = false;
+                playerControl.curCurlTime = 0f;
             }
         }
 
