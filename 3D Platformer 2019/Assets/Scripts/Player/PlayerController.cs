@@ -36,7 +36,7 @@ public class PlayerController : MonoBehaviour
     void Update()
     {
         #region Curling
-        if (Input.GetMouseButton(0) && ballTimer>=0 && cooldownTimer == 0)
+        if (Input.GetMouseButton(0) && cooldownTimer == 0)
         {
             isCurled = true;
             ballTimer -= Time.deltaTime;
