@@ -12,6 +12,7 @@ public class PlayerInput : MonoBehaviour
     public UncurledMovement uncurlController;
     public CurledMovement curlController;
     public PlayerController playerControl;
+    public Pickup flipControl;
 
     // Input Axis (Forward, Backward, Left, Right).
     float inputH = 0;
@@ -34,6 +35,7 @@ public class PlayerInput : MonoBehaviour
         uncurlController = FindObjectOfType<UncurledMovement>();
         curlController = FindObjectOfType<CurledMovement>();
         playerControl = FindObjectOfType<PlayerController>();
+        flipControl = FindObjectOfType<Pickup>();
     }
     #endregion
 
@@ -52,13 +54,21 @@ public class PlayerInput : MonoBehaviour
         // Left and Right axis.
         #region inputH dampening
         // If we press... uh, yeah. It turns on.
-        if (Input.GetKey(key.right))
+        if (Input.GetKey(key.right) && flipControl.isTrap == false)
         {
             inputH = 1;
         }
-        if (Input.GetKey(key.left))
+        if (Input.GetKey(key.left) && flipControl.isTrap == false)
         {
             inputH = -1;
+        }
+        else if (Input.GetKey(key.right) && flipControl.isTrap == true)
+        {
+            inputH = -1;
+        }
+        else if (Input.GetKey(key.left) && flipControl.isTrap == true)
+        {
+            inputH = 1;
         }
         // Otherwise, if we're not pressing the keys...
         else if (!Input.GetKey(key.right) && !Input.GetKey(key.left))
@@ -81,14 +91,23 @@ public class PlayerInput : MonoBehaviour
         // Forward and Backward axis.
         #region inputV dampening
         // See 'inputH dampening' for code comments.
-        if (Input.GetKey(key.forward))
+        if (Input.GetKey(key.forward) && flipControl.isTrap == false)
         {
             inputV = 1;
         }
-        if (Input.GetKey(key.backward))
+        if (Input.GetKey(key.backward) && flipControl.isTrap == false)
         {
             inputV = -1;
         }
+        else if (Input.GetKey(key.forward) && flipControl.isTrap == true)
+        {
+            inputV = -1;
+        }
+        else if (Input.GetKey(key.backward) && flipControl.isTrap == true)
+        {
+            inputV = 1;
+        }
+
         else if (!Input.GetKey(key.forward) && !Input.GetKey(key.backward))
         {
             if (inputV > 0.05f && inputV != 0)
@@ -106,6 +125,7 @@ public class PlayerInput : MonoBehaviour
             }
         }
         #endregion
+        
 
         // Plug our inputs into our Controller scripts from here.
         // NOTE: If we're curled or uncurled, the opposite needs to be neutral, or it stays on.

@@ -10,20 +10,11 @@ public class PlayerController : MonoBehaviour
     /// I'm sorry.
     #region Variables
     public Rigidbody rigid;
+    public Pickup trapTrigger;
 
     public GameObject curled;
     public GameObject uncurled;
-
-    /// // Refactored.
-    /// public bool isCurled;
-    /// 
-    /// [Tooltip("Time until your allowed ball form.")]
-    /// public float cooldown;
-    /// private float cooldownTimer;
-    /// public bool canCurl;
-    /// [Tooltip("Time allowed in ball form.")]
-    /// public float ballTime;
-    /// private float ballTimer;
+    
     public float maxCurlTime = 1f, curCurlTime = 1f;
     public float curlDrain;
     public float curlRecharge;
@@ -45,8 +36,7 @@ public class PlayerController : MonoBehaviour
         curCurlTime = maxCurlTime;
 
         rigid = GetComponent<Rigidbody>();
-        /// Refactored.
-        /// cooldownSlider.maxValue = cooldown;
+        trapTrigger = GameObject.FindGameObjectWithTag("Pickup").GetComponent<Pickup>();
         cooldownSlider.maxValue = curCurlTime;
     }
 
@@ -61,30 +51,7 @@ public class PlayerController : MonoBehaviour
         }
         #endregion
 
-        /// Refactored.
-        /// #region Curling
-        /// if (Input.GetMouseButton(0) && ballTimer>=0 && cooldownTimer == 0)
-        /// {
-        ///     isCurled = true;
-        ///     ballTimer -= Time.deltaTime;
-        /// }
-        /// else
-        /// {
-        ///     isCurled = false;
-        ///     ballTimer = ballTime;
-        /// }
-        /// #endregion
-        /// #region Uncurling
-        /// if ((Input.GetMouseButtonUp(0) || ballTimer <= 0) && cooldownTimer == 0)
-        /// {
-        ///     cooldownTimer = cooldown;
-        /// }
-        /// #endregion
-        /// 
-        /// cooldownTimer -= Time.deltaTime; //Cooldown counts down
-        /// 
-        /// if (cooldownTimer < 0) cooldownTimer = 0; //If cooldown is done.
-
+        #region Curl Time Stuff
         // Clamp curCurlTime recharge to maxCurlTime.
         if (curCurlTime > maxCurlTime)
             curCurlTime = maxCurlTime;
@@ -121,10 +88,13 @@ public class PlayerController : MonoBehaviour
                 uncurled.SetActive(false);
                 curled.SetActive(true);
                 break;
+        } 
+        #endregion
+        
+        if (trapTrigger.isTrap)
+        {
+            transform.rotation = Quaternion.Euler(0, 180, 0);
         }
-
-        /// Refactored.
-        /// cooldownSlider.value = cooldownTimer; //Set slider to cooldown
 
         // Slider shows cooldownTimer.
         cooldownSlider.value = curCurlTime;
