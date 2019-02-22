@@ -11,6 +11,9 @@ public class Collapsing : MonoBehaviour
 
     private float collapeNum;
 
+    private int platformCollaping;
+
+    public float fallSpeed = 500;
 
     public Transform[] platforms;
 
@@ -19,24 +22,27 @@ public class Collapsing : MonoBehaviour
     // Use this for initialization
     void Start()
     {
-            platforms = GetComponentsInChildren<Transform>();
-
+        platforms = GetComponentsInChildren<Transform>();
         collapeNum = endPlatform.transform.position.z;
         coroutine = Test();
-        Collape();
     }
 
 
-    void Collape()
+    public void StartCollape()
     {
         StartCoroutine(coroutine);
+    }
+
+    private void Update()
+    {
+        platforms[platformCollaping].position += (Vector3.down * fallSpeed) * Time.deltaTime;
     }
 
     IEnumerator Test()
     {
         for (int i = platforms.Length - 1; i >= 1; i--)
         {
-            Debug.Log(platforms[i] + " is collapsing!");
+            platformCollaping = i;
             yield return new WaitForSeconds(timeBetweenCollape);
         }
     }
