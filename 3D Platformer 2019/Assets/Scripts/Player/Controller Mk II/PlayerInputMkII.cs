@@ -46,21 +46,13 @@ public class PlayerInputMkII : MonoBehaviour
         // Left and Right axis.
         #region inputH dampening
         // If we press... uh, yeah. It turns on.
-        if (Input.GetKey(key.right) && flipControl.isTrap == false)
+        if (Input.GetKey(key.right))
         {
             inputH = 1;
         }
-        if (Input.GetKey(key.left) && flipControl.isTrap == false)
+        if (Input.GetKey(key.left))
         {
             inputH = -1;
-        }
-        else if (Input.GetKey(key.right) && flipControl.isTrap == true)
-        {
-            inputH = -1;
-        }
-        else if (Input.GetKey(key.left) && flipControl.isTrap == true)
-        {
-            inputH = 1;
         }
         // Otherwise, if we're not pressing the keys...
         else if (!Input.GetKey(key.right) && !Input.GetKey(key.left))
@@ -83,21 +75,13 @@ public class PlayerInputMkII : MonoBehaviour
         // Forward and Backward axis.
         #region inputV dampening
         // See 'inputH dampening' for code comments.
-        if (Input.GetKey(key.forward) && flipControl.isTrap == false)
+        if (Input.GetKey(key.forward))
         {
             inputV = 1;
         }
-        if (Input.GetKey(key.backward) && flipControl.isTrap == false)
+        if (Input.GetKey(key.backward))
         {
             inputV = -1;
-        }
-        else if (Input.GetKey(key.forward) && flipControl.isTrap == true)
-        {
-            inputV = -1;
-        }
-        else if (Input.GetKey(key.backward) && flipControl.isTrap == true)
-        {
-            inputV = 1;
         }
 
         else if (!Input.GetKey(key.forward) && !Input.GetKey(key.backward))
