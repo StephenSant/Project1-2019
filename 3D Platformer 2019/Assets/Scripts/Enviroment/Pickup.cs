@@ -9,6 +9,7 @@ public class Pickup : MonoBehaviour
     [Header("Components")]
     public MeshRenderer mesh;
     public Light glow;
+    public CollapsingMkII startTrap;
     #endregion
 
     #region Functions 'n' Methods
@@ -20,6 +21,7 @@ public class Pickup : MonoBehaviour
     {
         mesh = GetComponent<MeshRenderer>();
         glow = GetComponentInChildren<Light>();
+        startTrap = GameObject.Find("CollapseManager").GetComponent<CollapsingMkII>();
     }
     #endregion
 
@@ -32,6 +34,7 @@ public class Pickup : MonoBehaviour
         if (col.tag == "Player" && isTrap == false)
         {
             isTrap = true;
+            startTrap.StartCoroutine(startTrap.Test());
             mesh.enabled = false;
             glow.enabled = false;
             Debug.Log("Trap!");
