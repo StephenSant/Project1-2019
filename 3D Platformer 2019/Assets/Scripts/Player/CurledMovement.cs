@@ -23,7 +23,7 @@ public class CurledMovement : MonoBehaviour
     void Start()
     {
         //Remember to get everything from the parent
-        parent = GameObject.FindWithTag("Player").transform;
+        parent = GameObject.Find("Player").transform;
     } 
     #endregion
 

@@ -3,15 +3,13 @@ using System.Collections.Generic;
 using UnityEngine;
 
 // PlayerInput makes it possible to use rebound keys.
-public class PlayerInput : MonoBehaviour
+public class PlayerInputMkII : MonoBehaviour
 {
     // Nothing but references to scripts which give/use keys.
     #region Variables
     // Format is: public [SCRIPT NAME HERE] var;
     public MenuHandler key;
-    public UncurledMovement uncurlController;
-    public CurledMovement curlController;
-    public PlayerController playerControl;
+    public PlayerControllerMkII playerControl;
     public Pickup flipControl;
 
     // Input Axis (Forward, Backward, Left, Right).
@@ -32,9 +30,7 @@ public class PlayerInput : MonoBehaviour
         key = FindObjectOfType<MenuHandler>();
 
         // ... the relevant functions within the scripts.
-        uncurlController = FindObjectOfType<UncurledMovement>();
-        curlController = FindObjectOfType<CurledMovement>();
-        playerControl = FindObjectOfType<PlayerController>();
+        playerControl = FindObjectOfType<PlayerControllerMkII>();
         flipControl = FindObjectOfType<Pickup>();
     }
     #endregion
@@ -45,30 +41,18 @@ public class PlayerInput : MonoBehaviour
     void Update()
     {
         /// ATTENTION! CHECK COMPATIBILITY WITH MOVEMENT SCRIPTS!
-        #region Movement
-        /// Garbage. (Couldn't use ternary operator with smoothness). 
-        /// Ternary operator (courtesy of Manny); it's a new (fake) axis using the saved keys.
-        /// float inputH = Input.GetKey(key.right) ? 1f : Input.GetKey(key.left) ? -1f : 0;
-        /// float inputV = Input.GetKey(key.forward) ? 1f : Input.GetKey(key.backward) ? -1f : 0;      
+        #region Movement  
 
         // Left and Right axis.
         #region inputH dampening
         // If we press... uh, yeah. It turns on.
-        if (Input.GetKey(key.right) && flipControl.isTrap == false)
+        if (Input.GetKey(key.right))
         {
             inputH = 1;
         }
-        if (Input.GetKey(key.left) && flipControl.isTrap == false)
+        if (Input.GetKey(key.left))
         {
             inputH = -1;
-        }
-        else if (Input.GetKey(key.right) && flipControl.isTrap == true)
-        {
-            inputH = -1;
-        }
-        else if (Input.GetKey(key.left) && flipControl.isTrap == true)
-        {
-            inputH = 1;
         }
         // Otherwise, if we're not pressing the keys...
         else if (!Input.GetKey(key.right) && !Input.GetKey(key.left))
@@ -91,21 +75,13 @@ public class PlayerInput : MonoBehaviour
         // Forward and Backward axis.
         #region inputV dampening
         // See 'inputH dampening' for code comments.
-        if (Input.GetKey(key.forward) && flipControl.isTrap == false)
+        if (Input.GetKey(key.forward))
         {
             inputV = 1;
         }
-        if (Input.GetKey(key.backward) && flipControl.isTrap == false)
+        if (Input.GetKey(key.backward))
         {
             inputV = -1;
-        }
-        else if (Input.GetKey(key.forward) && flipControl.isTrap == true)
-        {
-            inputV = -1;
-        }
-        else if (Input.GetKey(key.backward) && flipControl.isTrap == true)
-        {
-            inputV = 1;
         }
 
         else if (!Input.GetKey(key.forward) && !Input.GetKey(key.backward))
@@ -125,25 +101,14 @@ public class PlayerInput : MonoBehaviour
             }
         }
         #endregion
-        
 
         // Plug our inputs into our Controller scripts from here.
-        // NOTE: If we're curled or uncurled, the opposite needs to be neutral, or it stays on.
-        if (playerControl.isCurled == false)
-        {
-            uncurlController.UncurlMove(inputH, inputV);
-            curlController.CurlMove(0f, 0f);
-        }
-        else
-        {
-            curlController.CurlMove(inputH, inputV);
-            uncurlController.UncurlMove(0f, 0f);
-        }
+        playerControl.Move(inputH, inputV);
 
         // Same as above, but for 'UncurledMovement.Jump()'.
         if (Input.GetKey(key.jump) && playerControl.isCurled == false)
         {
-            uncurlController.UncurlJump();
+            playerControl.Jump();
         }
 
         if (!Pause.paused)
@@ -159,8 +124,7 @@ public class PlayerInput : MonoBehaviour
             }
         }
 
-        uncurlController.UpdateUncurlMove();
-        curlController.UpdateCurlMove();
+        playerControl.UpdateMove();
         #endregion
     }
     #endregion 

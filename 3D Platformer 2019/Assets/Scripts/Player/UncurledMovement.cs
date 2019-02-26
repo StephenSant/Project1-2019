@@ -27,8 +27,8 @@ public class UncurledMovement : MonoBehaviour
     void Start()
     {
         //Remember to get everything from the parent
-        rigid = GameObject.FindWithTag("Player").GetComponentInParent<Rigidbody>();
-        parent = GameObject.FindWithTag("Player").transform;
+        rigid = GameObject.Find("Player").GetComponentInParent<Rigidbody>();
+        parent = GameObject.Find("Player").transform;
     }
     #endregion
     // Where we make a Raycast and check if we're touching the ground.
