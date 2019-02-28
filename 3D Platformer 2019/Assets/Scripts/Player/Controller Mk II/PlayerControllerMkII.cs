@@ -168,21 +168,6 @@ public class PlayerControllerMkII : MonoBehaviour
             moveDirection *= curlSpeed;
     }
 
-    /// #region Uncurled Movement
-    /// // Where we Move in all four directions in a single line using moveDirection.
-    /// public void UpdateUncurlMove()
-    /// {
-    ///     transform.Translate(moveDirection * Time.deltaTime);
-    /// }
-    /// 
-    /// // Where our inputs from PlayerInput.cs go in and do all the 'maths' for moveDirection.
-    /// public void UncurlMove(float inputH, float inputV)
-    /// {
-    ///     moveDirection = new Vector3(inputH, 0, inputV);
-    ///     moveDirection = transform.TransformDirection(moveDirection);
-    ///     moveDirection *= moveSpeed;
-    /// }
-    /// // Where we jump. Umm... y-yeah.
     public void Jump()
     {
         if (grounded)
@@ -190,22 +175,23 @@ public class PlayerControllerMkII : MonoBehaviour
             rigid.velocity = ((Vector3.up * 100) * Time.deltaTime * jumpHeight);
         }
     }
-    /// #endregion
-    /// 
-    /// #region CurledMovement
-    /// // Where we Move in all four directions in a single line using moveDirection.
-    /// public void UpdateCurlMove()
-    /// {
-    ///     transform.Translate(moveDirection * Time.deltaTime);
-    /// }
-    /// 
-    /// // Where our inputs from PlayerInput.cs go in and do all the 'maths' for moveDirection.
-    /// public void CurlMove(float inputH, float inputV)
-    /// {
-    ///     moveDirection = new Vector3(inputH, 0, inputV);
-    ///     moveDirection = transform.TransformDirection(moveDirection);
-    ///     moveDirection *= curlSpeed;
-    /// } 
-    /// #endregion
     #endregion
+
+    // OnCollisionEnter is called when this collider/rigidbody has begun touching another rigidbody/collider
+    private void OnCollisionEnter(Collision col)
+    {
+        if (col.gameObject.tag == "Platform")
+        {
+            transform.SetParent(col.transform);
+        }
+    }
+
+    // OnCollisionExit is called when this collider/rigidbody has stopped touching another rigidbody/collider
+    private void OnCollisionExit(Collision col)
+    {
+        if (col.gameObject.tag == "Platform")
+        {
+            transform.SetParent(null);
+        }
+    }
 }

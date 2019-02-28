@@ -4,28 +4,33 @@ using UnityEngine;
 
 public class CollapsingMkII : MonoBehaviour
 {
-    public Pickup trapStart;
-    public float time = 1f;
-    public float fallSpeed = 2f;
-    public int platformIndex;
+    // Due to SimplePlatformFall.cs relying on inheritance, 'time' and 'fallSpeed' have to be set here.
+    // Trying to set the values in the inspector causes the platform fall to fail. I'm not sure why.
+    [Header("SET FALL SPEED INSIDE SCRIPT!")]
+    public float fallRate;
+
+    // DO NOT CHANGE ACCESS TYPE!!  ↓ You can change value though.
+    public static float fallSpeed = .5f; // ← I am not proud of this solution.
+    
+    // Array of our platforms.
     public GameObject[] platforms;
 
-    // Use this for initialization
-    void Start()
-    {
-        trapStart = GameObject.FindGameObjectWithTag("Pickup").GetComponent<Pickup>();
-    }
+    /// private Pickup trapStart; // Upon review, I don't need this.
+    ///
+    /// // Use this for initialization
+    /// void Start()
+    /// {
+    ///     // trapStart = GameObject.FindGameObjectWithTag("Pickup").GetComponent<Pickup>();
+    /// }
 
     public IEnumerator Test()
     {
-        //if (trapStart.isTrap)
-        //{
+        // For loop to add SimplePlatformFall.cs to each platform in order every (time) seconds.
         for (int i = 0; i < platforms.Length; i++)
         {
             print(i);
             platforms[i].AddComponent<SimplePlatformFall>();
-            yield return new WaitForSeconds(time);
+            yield return new WaitForSeconds(fallRate);
         }
-        //}
     }
 }

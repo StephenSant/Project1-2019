@@ -100,6 +100,24 @@ public class PlayerController : MonoBehaviour
         cooldownSlider.value = curCurlTime;
     }
 
+    // OnCollisionEnter is called when this collider/rigidbody has begun touching another rigidbody/collider
+    private void OnCollisionEnter(Collision col)
+    {
+        if (col.gameObject.tag == "Platform")
+        {
+            transform.SetParent(col.transform);
+        }
+    }
+
+    // OnCollisionExit is called when this collider/rigidbody has stopped touching another rigidbody/collider
+    private void OnCollisionExit(Collision col)
+    {
+        if (col.gameObject.tag == "Platform")
+        {
+            transform.SetParent(null);
+        }
+    }
+
     public void Curl()
     {
         // Curl into ball and drain ballTimer on-click if ballTimer is zero or higher, and cooldownTimer is zero.
@@ -113,7 +131,6 @@ public class PlayerController : MonoBehaviour
         {
             isCurled = false;
         }
-
-    } 
+    }
     #endregion
 }
