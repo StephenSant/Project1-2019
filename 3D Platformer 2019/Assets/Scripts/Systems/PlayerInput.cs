@@ -148,11 +148,20 @@ public class PlayerInput : MonoBehaviour
 
         if (!Pause.paused)
         {
-            if (Input.GetKey(key.curl) && playerControl.curlLock == false)
+            /*if (Input.GetKey(key.curl) && playerControl.curlLock == false)
             {
                 playerControl.Curl();
             }
             else if (Input.GetKeyUp(key.curl) && playerControl.curlLock == false)
+            {
+                playerControl.isCurled = false;
+                playerControl.curCurlTime = 0f;
+            }*/
+            if (Input.GetMouseButtonDown(0) && playerControl.curlLock == false)
+            {
+                playerControl.Curl();
+            }
+            else if (Input.GetMouseButtonUp(0) && playerControl.curlLock == false)
             {
                 playerControl.isCurled = false;
                 playerControl.curCurlTime = 0f;

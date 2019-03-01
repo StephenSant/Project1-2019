@@ -25,8 +25,11 @@ public class PlayerControllerMkII : MonoBehaviour
 
     public Slider cooldownSlider;
 
+    //where its gonna respawn
+    public Vector3 spawnPoint;
+
     //
-    
+
     public float moveSpeed = 5, curlSpeed = 15;
     public float jumpHeight = 3;
     // Are we touching the ground?
@@ -56,14 +59,30 @@ public class PlayerControllerMkII : MonoBehaviour
         cooldownSlider.maxValue = curCurlTime;
     }
 
-    // Update is called once per frame, if MonoBehaviour is enabled
-    void Update()
+    void Respawn()
     {
-        #region Respawning
+        transform.position = spawnPoint;
+        rigid.velocity = Vector3.zero;
+        GameObject.Find("CollapseManager").GetComponent<CollapsingMkII>().ResetPlatforms();
+    }
+
+    // Update is called once per frame, if MonoBehaviour is enabled
+    void Update(){
+        #region Set Rotation
+        if (trapTrigger.isTrap)
+        {
+            transform.rotation = Quaternion.Euler(0, 180, 0);
+        }
+        else
+        {
+            transform.rotation = Quaternion.Euler(0, 0, 0);
+        }
+        #endregion
+
+        #region Dying
         if (transform.position.y <= -5)
         {
-            transform.position = Vector3.zero;
-            rigid.velocity = Vector3.zero;
+            Respawn();
         }
         #endregion
 
@@ -130,7 +149,11 @@ public class PlayerControllerMkII : MonoBehaviour
 
         if (trapTrigger.isTrap)
         {
-            transform.rotation = Quaternion.Euler(0, 180, 0);
+            spawnPoint = new Vector3(0, 9, 157);
+        }
+        else
+        {
+            spawnPoint = Vector3.zero;
         }
 
         // Slider shows cooldownTimer.
